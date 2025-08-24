@@ -2,7 +2,7 @@ import librosa
 import matplotlib.pyplot as plt
 
 # Load audio file
-y, sr = librosa.load("sample_speech.wav")
+y, sr = librosa.load("nervous_speech.wav")
 
 # Extract pitch (fundamental frequency)
 pitches, magnitudes = librosa.piptrack(y=y, sr=sr)
