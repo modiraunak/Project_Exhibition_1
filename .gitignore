@@ -1,0 +1,61 @@
+ror: No module named 'pydub'
+# Python cache and compiled files
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Build / distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs & temp
+*.log
+*.tmp
+*.bak
+
+# Audio & media files (generated/test samples)
+*.wav
+*.mp3
+*.ogg
+
+# Streamlit cache
+.streamlit/
+**/.streamlit/
+
+# Streamlit static state (can regenerate)
+.streamlit/secrets.toml
+.streamlit/config.toml
+
+# Matplotlib / Librosa cache
+.matplotlib/
+librosa_cache/
+
+# ffmpeg temp files
+*.part
+*.ffconcat
+
+# Deployment / container files
+*.db
+*.sqlite3
