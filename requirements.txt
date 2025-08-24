@@ -1,0 +1,11 @@
+streamlit==1.37.0
+streamlit-webrtc==0.47.1
+numpy==1.26.4
+scipy==1.13.1
+librosa==0.10.2.post1
+soundfile==0.12.1
+pydub==0.25.1
+matplotlib==3.9.2
+plotly==5.23.0
+ffmpeg-python==0.2.0
+gtts==2.5.1
