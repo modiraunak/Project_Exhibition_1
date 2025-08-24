@@ -3,16 +3,15 @@ import os
 
 # Nervous sample text
 text = """
-Uh… g-good morning everyone… I-I am here to… um… 
-talk about, uh… confidence. 
-So… so the main th-thing is… umm… we often feel… uh… 
-nervous when speaking in front of people.
+Goooad Morning Everyoneee
+i aaam s-eecond Ye--ar Stu---dent 
+at V-i-it Bhop--al Univer----sity
 """
 
 # Generate nervous voice audio
-tts = gTTS(text=text, lang='en', slow=False)
+tts = gTTS(text=text, lang='en', slow=True)
 
 # Save as wav file
-tts.save("nervous_speech.mp3")
+tts.save("nervous_speech.wav")
 
-print("Nervous speech saved as 'nervous_speech.mp3'")
+print("Nervous speech saved as 'nervous_speech.wav'")
