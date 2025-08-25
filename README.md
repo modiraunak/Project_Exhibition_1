@@ -65,3 +65,5 @@ Open the link shown in your terminal (usually http://localhost:8501) to start th
  Demo
 <img width="1905" height="891" alt="Screenshot 2025-08-25 150631" src="https://github.com/user-attachments/assets/965f5227-7abe-419a-8bb9-bf0c90453244" />
 
+<img width="1913" height="896" alt="Screenshot 2025-08-25 150607" src="https://github.com/user-attachments/assets/8513c6a1-0334-4d38-bbf0-fc8d902d4298" />
+
