@@ -5,10 +5,11 @@ import numpy as np
 import streamlit as st
 import librosa 
 import matplotlib.pyplot as plt
-from streamlit_webrtc import webrtc_streamer , WebRtcMode , RTCConfiguration
+from streamlit_webrtc import webrtc_streamer , WebRtcMode
 import av 
 import mediapipe as mp
 import cv2
+import pandas as pd
 ####################################################### UI #####################################################################################
 
 st.set_page_config(page_title="SpeakSmart + CalmCoreAI ( Real-Time Coach for Public Speaking and Interviews )",page_icon="🗣️",layout= "wide" )
@@ -16,7 +17,7 @@ st.title("SpeakSmart + CalmCoreAI ( Real-Time Coach for Public Speaking and Inte
 st.caption("Pitch Tracking + Confidence Analyzer + Webcam BodyLanguage Overlay")
 
 #################################################### WebRtc Config ####################################################################################
-RTCConfiguration = RTCConfiguration({"iceServers":[{"urls":["stun:stun.l.google.com:19302"]}]})
+RTC_Configuration = {"iceServers":[{"urls":["stun:stun.l.google.com:19302"]}]}
 
 ################################################### Session State  #####################################################################################
 if "pitch_hist" not in st.session_state:
@@ -67,7 +68,7 @@ def estimate_pitch(y: np.ndarray, sr: int, fmin: float, fmax: float):
     
 ############################################### Chunker ###################################################################################################
 class AudioChunker:
-    def init(self, sr=48000, hop_dur=HOP_DUR):
+    def __init__(self, sr=48000, hop_dur=HOP_DUR):
         self.sr = sr
         self.hop = int(sr * hop_dur)
         self.buf = np.zeros(0, dtype=np.float32)
@@ -166,7 +167,7 @@ with col1:
     webrtc_streamer(
         key="video",
         mode=WebRtcMode.SENDRECV,
-        RTCConfiguration = RTCConfiguration,
+        rtc_configuration =  RTC_Configuration,
         video_processor_factory=VideoProcessor,
         media_stream_constraints={"video": True, "audio": False},
     )
@@ -176,7 +177,7 @@ with col2:
     webrtc_streamer(
         key="audio",
         mode=WebRtcMode.SENDRECV,
-        RTCConfiguration = RTCConfiguration,
+        rtc_configuration= RTC_Configuration,
         audio_frame_callback=audio_frame_callback,
         media_stream_constraints={"video": False, "audio": True},
     )
@@ -188,7 +189,7 @@ lcol, rcol = st.columns(2)
 
 with lcol:
     st.subheader("Live Pitch (Hz)")
-    plot = st.line_chart()
+    plot = st.line_chart(pd.DataFrame({"time": [], "pitch": []}))
 
 with rcol:
     st.subheader("Live Confidence")
@@ -199,7 +200,8 @@ async def ui_updater():
         if st.session_state.timestamps:
             xs = list(st.session_state.timestamps)
             ys = list(st.session_state.pitch_hist)
-            plot.add_rows({"time": xs, "pitch": [None if np.isnan(v) else v for v in ys]})
+            new_data = pd.DataFrame({"time": [elapsed_time], "pitch": [pitch]}) 
+            plot.add_rows(new_data)
             conf_metric.metric("Confidence (0–100)", value=st.session_state.live_confidence)
         await asyncio.sleep(0.2)
 
