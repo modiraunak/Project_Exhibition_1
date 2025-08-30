@@ -87,8 +87,10 @@ chunker = AudioChunker()
 
 def audio_frame_callback(frame: av.AudioFrame) -> av.AudioFrame:
     pcm = frame.to_ndarray()
-    mono = pcm.mean(axis=0) if pcm.ndim == 2 else pcm
-
+    if pcm.ndim == 2:
+        mono = pcm.mean(axis=0)
+    else:
+        mono = pcm 
     # normalize int16 → float32
     if np.issubdtype(mono.dtype, np.integer):
         mono = mono.astype(np.float32) / np.iinfo(mono.dtype).max
@@ -189,11 +191,13 @@ lcol, rcol = st.columns(2)
 
 with lcol:
     st.subheader("Live Pitch (Hz)")
-    plot = st.line_chart(pd.DataFrame({"time": [], "pitch": []}))
+    plot = st.line_chart()
 
 with rcol:
     st.subheader("Live Confidence")
-    conf_metric = st.metric("Confidence (0–100)", value=st.session_state.live_confidence)
+    conf_placeholder = st.empty()
+    conf_placeholder.metric("confidence (0-100)",
+    int(st.session_state.live_confidence))
 
 async def ui_updater():
     while True:
