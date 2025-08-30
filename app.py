@@ -85,7 +85,7 @@ chunker = AudioChunker()
 
 ########################################## Audio CallBack #####################################################################################################
 
-async def audio_frame_callback(frame: av.AudioFrame) -> av.AudioFrame:
+def audio_frame_callback(frame: av.AudioFrame) -> av.AudioFrame:
     pcm = frame.to_ndarray()
     mono = pcm.mean(axis=0) if pcm.ndim == 2 else pcm
 
@@ -200,8 +200,8 @@ async def ui_updater():
         if st.session_state.timestamps:
             xs = list(st.session_state.timestamps)
             ys = list(st.session_state.pitch_hist)
-            new_data = pd.DataFrame({"time": [elapsed_time], "pitch": [pitch]}) 
-            plot.add_rows(new_data)
+            new_data = pd.DataFrame({"time": xs,"Pitch":[None if np.isnan(v) else  v for v in ys]})
+            pd.add_rows(new_data)
             conf_metric.metric("Confidence (0–100)", value=st.session_state.live_confidence)
         await asyncio.sleep(0.2)
 
